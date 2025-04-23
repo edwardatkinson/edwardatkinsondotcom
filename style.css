@@ -5,90 +5,167 @@
     box-sizing: border-box;
 }
 
-/* Variables for easy color management (optional but good practice) */
+/* Variables for easy color management */
 :root {
     --bg-color: #2F3E46; /* Sea Green */
     --text-color: #ffffff; /* White */
     --brand-color: #5CE062; /* Lime */
+    --receipt-bg: #ffffff; /* White background for receipt */
+    --receipt-text: #222222; /* Very dark gray for receipt text */
+    --receipt-border: #dddddd; /* Light gray for table borders */
+    --receipt-total-border: #555555; /* Darker gray for total line */
     --header-font: 'Hind', sans-serif;
     --paragraph-font: 'Crimson Text', serif;
+    --monospace-font: 'Source Code Pro', monospace; /* Added Monospace */
 }
 
 html {
-    /* Base font size for REM calculation - helps scaling */
-    font-size: 16px; /* Default, can adjust */
+    font-size: 16px;
 }
 
 body {
     background-color: var(--bg-color);
-    color: var(--text-color);
-    font-family: var(--paragraph-font); /* Default paragraph font */
-    line-height: 1.7; /* Improve readability */
-    min-height: 100vh; /* Ensure body takes full viewport height */
-
-    /* Center the content vertically and horizontally */
+    color: var(--text-color); /* Default text color for outside receipt */
+    font-family: var(--paragraph-font);
+    line-height: 1.7;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 1rem; /* Add some padding around the edges on very small screens */
+    padding: 1rem;
 }
 
 .landing-container {
-    /* Responsive width */
-    width: 90%; /* Takes most of the width on small screens */
-    max-width: 960px; /* Limits width on large screens */
-
-    /* Responsive padding */
-    padding: clamp(1.5rem, 5vw, 3rem); /* Min: 1.5rem, Scales with viewport width, Max: 3rem */
-
-    text-align: center; /* Center text elements within the container */
-    border-radius: 8px; /* Optional: subtle rounded corners */
-    /* Optional: Add a subtle shadow for depth */
-    /* box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); */
+    width: 90%;
+    max-width: 960px;
+    /* Padding removed from here, applied to sections if needed */
+    text-align: center;
+    /* Removed padding, border-radius, box-shadow as they might conflict with receipt style */
 }
 
+/* Brand header is now minimal, maybe just spacing */
 .brand-header {
-    margin-bottom: clamp(1.5rem, 4vw, 2.5rem); /* Responsive margin */
+     /* Removed margin-bottom, let the receipt section handle its own spacing */
+     /* Removed brand-name style as it's now in the receipt title */
 }
 
-.brand-name {
-    font-family: var(--header-font);
-    color: var(--brand-color);
-    font-weight: 700;
-    /* Responsive font size using clamp() */
-    /* clamp(MINIMUM_SIZE, PREFERRED_SIZE, MAXIMUM_SIZE) */
-    font-size: clamp(1.75rem, 4vw + 1rem, 3rem); /* Adjust values as needed */
-    line-height: 1.2;
+/* --- Receipt Hero Section --- */
+.receipt-hero {
+    background-color: var(--receipt-bg);
+    color: var(--receipt-text);
+    padding: clamp(1.5rem, 5vw, 3rem);
+    border-radius: 8px;
+    max-width: 700px; /* Limit width of receipt */
+    margin: 2rem auto; /* Center the receipt block and add vertical space */
+    text-align: left; /* Override parent text-align: center */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow for lift */
 }
 
-.hero-content h1 {
+.receipt-hero h2 {
     font-family: var(--header-font);
     font-weight: 700;
-    /* Responsive font size */
-    font-size: clamp(2rem, 6vw + 1rem, 3.8rem); /* Larger than brand name */
+    font-size: clamp(1.5rem, 4vw + 0.5rem, 2.2rem); /* Adjusted size */
     line-height: 1.3;
-    margin-bottom: clamp(1.5rem, 4vw, 2.5rem); /* Responsive margin */
-    color: var(--text-color); /* Ensure it uses primary text color */
+    margin-bottom: 2rem; /* More space after title */
+    text-align: center; /* Center the title within the receipt */
+    color: var(--receipt-text); /* Ensure title uses receipt text color */
 }
 
-.hero-content p {
-    font-family: var(--paragraph-font);
-    /* Responsive font size */
-    font-size: clamp(1rem, 2.5vw + 0.5rem, 1.25rem);
-    line-height: 1.7; /* Ensure paragraph line-height is good */
-    max-width: 720px; /* Limit paragraph width for better readability within the centered container */
-    margin-left: auto; /* Center the paragraph block if its max-width is less than container */
-    margin-right: auto;
-    color: var(--text-color); /* Ensure it uses primary text color */
+/* Style for the brand name within the title */
+.brand-color-text {
+    color: var(--brand-color);
 }
 
-/* Minor adjustments for very small screens if needed */
-@media (max-width: 360px) {
-    .landing-container {
-        width: 95%;
+.receipt-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1.5rem;
+    font-family: var(--paragraph-font); /* Use paragraph font for items */
+}
+
+.receipt-table th,
+.receipt-table td {
+    padding: 0.8rem 0.5rem; /* Slightly more padding */
+    border-bottom: 1px solid var(--receipt-border);
+    vertical-align: top;
+    line-height: 1.5;
+}
+
+.receipt-table th {
+    text-align: left;
+    font-family: var(--header-font);
+    font-weight: 700;
+    color: #444444; /* Slightly lighter heading */
+    padding-bottom: 0.5rem; /* Less padding below header */
+}
+
+/* Target the Price column (last cell in header and body/footer rows) */
+.receipt-table th:last-child,
+.receipt-table td:last-child {
+    text-align: right;
+    font-family: var(--monospace-font); /* Monospace for prices */
+    white-space: nowrap; /* Prevent price wrapping */
+}
+
+/* Style the footer row (Total) */
+.receipt-table tfoot td {
+    font-weight: 700;
+    border-top: 2px solid var(--receipt-total-border); /* Heavier line above total */
+    border-bottom: none; /* No line below total */
+    padding-top: 0.8rem;
+}
+
+/* Footer section below the table */
+.receipt-footer {
+    margin-top: 1.5rem;
+    border-top: 1px dashed var(--receipt-border); /* Optional dashed line */
+    padding-top: 1.5rem;
+}
+
+.receipt-footer p {
+    font-size: clamp(0.9rem, 2vw + 0.4rem, 1.1rem); /* Slightly smaller font */
+    line-height: 1.6;
+    margin-bottom: 0.75rem; /* Space between paragraphs */
+}
+.receipt-footer p:last-child {
+    margin-bottom: 0;
+}
+
+
+.receipt-footer strong {
+    font-family: var(--header-font);
+    font-weight: 700;
+    color: #333333; /* Slightly darker emphasis */
+}
+
+
+/* --- Removed Old Hero Styles --- */
+/* .hero-content h1, .hero-content p styles are no longer needed */
+
+
+/* Media Queries */
+@media (max-width: 600px) {
+    .receipt-hero {
+        width: 95%; /* Allow slightly more width on small screens */
         padding: clamp(1rem, 4vw, 1.5rem);
     }
-    html {
-        font-size: 14px; /* Slightly reduce base font size */
+
+    .receipt-table th,
+    .receipt-table td {
+        padding: 0.6rem 0.3rem; /* Reduce padding slightly */
     }
+
+    .receipt-hero h2 {
+        font-size: clamp(1.3rem, 5vw + 0.5rem, 1.8rem);
+    }
+     .receipt-footer p {
+        font-size: clamp(0.85rem, 2.5vw + 0.4rem, 1rem);
+     }
+}
+
+@media (max-width: 400px) {
+    html {
+        font-size: 15px; /* Slightly reduce base font size */
+    }
+    /* Make table potentially scrollable if needed, but unlikely with this content */
 }
