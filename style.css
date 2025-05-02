@@ -14,6 +14,9 @@
     --receipt-text: #222222; /* Very dark gray for receipt text */
     --receipt-border: #dddddd; /* Light gray for table borders */
     --receipt-total-border: #555555; /* Darker gray for total line */
+    --button-bg: var(--brand-color);
+    --button-text: #1a1a1a; /* Dark text for contrast on lime */
+    --button-hover-bg: #4bcd50; /* Slightly darker lime */
     --header-font: 'Hind', sans-serif;
     --paragraph-font: 'Crimson Text', serif;
     --monospace-font: 'Source Code Pro', monospace; /* Added Monospace */
@@ -25,12 +28,12 @@ html {
 
 body {
     background-color: var(--bg-color);
-    color: var(--text-color); /* Default text color for outside receipt */
+    color: var(--text-color); /* Default text color for outside receipt/content */
     font-family: var(--paragraph-font);
     line-height: 1.7;
     min-height: 100vh;
     display: flex;
-    justify-content: center;
+    flex-direction: column; /* Allow container to stack vertically */
     align-items: center;
     padding: 1rem;
 }
@@ -38,10 +41,52 @@ body {
 .landing-container {
     width: 90%;
     max-width: 960px;
-    /* Padding removed from here, applied to sections if needed */
     text-align: center;
-    /* Removed padding, border-radius, box-shadow as they might conflict with receipt style */
+    margin-top: 1rem; /* Add some space above nav */
 }
+
+/* --- START: Navigation Bar Styles --- */
+.main-nav {
+    width: 100%;
+    padding: 0.5rem 0;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Subtle separator */
+}
+
+.main-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex; /* Use flexbox */
+    justify-content: center; /* Center items */
+    flex-wrap: wrap; /* Allow wrapping on small screens */
+    gap: 1rem; /* Spacing between items */
+}
+
+.main-nav li {
+    /* display: inline-block; removed for flex */
+    margin: 0 0.5rem; /* Horizontal margin */
+}
+
+.main-nav a {
+    font-family: var(--header-font);
+    color: var(--text-color);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1.1rem;
+    padding: 0.5rem 0.8rem;
+    border-radius: 4px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.main-nav a:hover,
+.main-nav a:focus {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--brand-color);
+    outline: none; /* Remove default focus outline if needed */
+}
+/* --- END: Navigation Bar Styles --- */
+
 
 /* Brand header is now minimal, maybe just spacing */
 .brand-header {
@@ -49,7 +94,7 @@ body {
      /* Removed brand-name style as it's now in the receipt title */
 }
 
-/* --- Receipt Hero Section --- */
+/* --- Receipt Hero Section (Index Page Specific) --- */
 .receipt-hero {
     background-color: var(--receipt-bg);
     color: var(--receipt-text);
@@ -73,7 +118,7 @@ body {
 
 /* Style for the brand name within the title */
 .brand-color-text {
-    color: var(--brand-color);
+    color: var(--brand-color); /* Keep using brand color here */
 }
 
 .receipt-table {
@@ -126,24 +171,153 @@ body {
     font-size: clamp(0.9rem, 2vw + 0.4rem, 1.1rem); /* Slightly smaller font */
     line-height: 1.6;
     margin-bottom: 0.75rem; /* Space between paragraphs */
+    color: var(--receipt-text); /* Ensure text inside receipt uses receipt color */
 }
 .receipt-footer p:last-child {
     margin-bottom: 0;
 }
-
 
 .receipt-footer strong {
     font-weight: 700;
     color: #333333; /* Slightly darker emphasis */
 }
 
+.receipt-footer a {
+    color: var(--brand-color); /* Link color inside receipt */
+    text-decoration: none;
+    font-weight: bold;
+}
+.receipt-footer a:hover {
+    text-decoration: underline;
+}
 
-/* --- Removed Old Hero Styles --- */
-/* .hero-content h1, .hero-content p styles are no longer needed */
+
+/* --- START: General Content Styles (for Choir Snacks page) --- */
+.content-section {
+    padding: 2rem 1rem; /* Add padding */
+    text-align: left; /* Align text to the left for readability */
+    color: var(--text-color); /* Use default white text */
+    max-width: 800px; /* Slightly wider max-width maybe */
+    margin: 0 auto; /* Center the content block */
+}
+
+.content-section h2 {
+    font-family: var(--header-font);
+    font-size: clamp(1.8rem, 5vw, 2.5rem);
+    color: var(--brand-color); /* Use brand color for main heading */
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.content-section h3 {
+    font-family: var(--header-font);
+    font-size: clamp(1.3rem, 4vw, 1.7rem);
+    color: var(--text-color);
+    margin-top: 2rem;
+    margin-bottom: 0.8rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    padding-bottom: 0.3rem;
+}
+
+.content-section p {
+    margin-bottom: 1.2rem;
+    font-size: 1.1rem;
+    line-height: 1.7;
+}
+
+.content-section ul {
+    list-style: disc; /* Use standard bullets */
+    margin-left: 2rem; /* Indent list */
+    margin-bottom: 1.2rem;
+}
+
+.content-section li {
+    margin-bottom: 0.5rem;
+}
+
+.content-section blockquote {
+    border-left: 4px solid var(--brand-color);
+    padding-left: 1rem;
+    margin: 1.5rem 0;
+    font-style: italic;
+    color: #e0e0e0; /* Slightly off-white for quotes */
+}
+
+.content-section blockquote cite {
+    display: block;
+    margin-top: 0.5rem;
+    font-style: normal;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.content-section .cta-button {
+    display: inline-block; /* Make it behave like a button */
+    background-color: var(--button-bg);
+    color: var(--button-text);
+    padding: 0.8rem 1.8rem;
+    font-family: var(--header-font);
+    font-size: 1.2rem;
+    font-weight: 700;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    margin: 1.5rem 0;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    cursor: pointer;
+}
+
+.content-section .cta-button:hover,
+.content-section .cta-button:focus {
+    background-color: var(--button-hover-bg);
+    transform: translateY(-2px); /* Subtle lift on hover */
+    outline: none;
+}
+
+.content-section .centered-cta { /* Helper to center button */
+    text-align: center;
+}
+
+.content-section .optional-link a {
+    color: var(--brand-color);
+    text-decoration: none;
+    font-weight: bold;
+}
+.content-section .optional-link a:hover {
+    text-decoration: underline;
+}
+
+.content-section .creator-info {
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    font-size: 0.95rem;
+    color: #e0e0e0;
+}
+
+.content-section .creator-info strong {
+    color: var(--text-color);
+}
+/* --- END: General Content Styles --- */
 
 
 /* Media Queries */
+@media (max-width: 768px) {
+    .landing-container {
+        width: 95%;
+    }
+    .main-nav ul {
+        gap: 0.5rem; /* Reduce gap on smaller screens */
+    }
+    .main-nav a {
+        font-size: 1rem;
+        padding: 0.4rem 0.6rem;
+    }
+}
+
 @media (max-width: 600px) {
+    /* Receipt specific adjustments */
     .receipt-hero {
         width: 95%; /* Allow slightly more width on small screens */
         padding: clamp(1rem, 4vw, 1.5rem);
@@ -160,11 +334,38 @@ body {
      .receipt-footer p {
         font-size: clamp(0.85rem, 2.5vw + 0.4rem, 1rem);
      }
+
+     /* General content adjustments */
+    .content-section {
+        padding: 1.5rem 0.5rem;
+    }
+    .content-section h2 {
+        font-size: clamp(1.6rem, 6vw, 2.2rem);
+    }
+    .content-section h3 {
+        font-size: clamp(1.2rem, 5vw, 1.5rem);
+    }
+    .content-section p, .content-section li {
+        font-size: 1rem;
+    }
+    .content-section .cta-button {
+        padding: 0.7rem 1.5rem;
+        font-size: 1.1rem;
+        width: 100%; /* Make button full width */
+        max-width: 300px; /* Limit max width */
+        display: block; /* Needed for margin auto centering */
+        margin-left: auto;
+        margin-right: auto;
+    }
 }
 
 @media (max-width: 400px) {
     html {
         font-size: 15px; /* Slightly reduce base font size */
+    }
+    .main-nav a {
+        font-size: 0.9rem;
+        padding: 0.3rem 0.5rem;
     }
     /* Make table potentially scrollable if needed, but unlikely with this content */
 }
